@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="css/codon.css"/>
     <script>
       $(document).ready(function(){
-        var helix = new Helix({});
+        var helix = new Helix({
+          colors: {
+            left: 0xFF0000,
+            right: 0xF1F1F1
+          }
+        });
         $(".helix").append(helix);
       });
     </script>

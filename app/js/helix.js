@@ -3,9 +3,9 @@ var Helix = function(opts){
   var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   var renderer = new THREE.WebGLRenderer({ antialias: true });
 
-  var blue = 0x84D0F0,
-      yellow = 0xFED162,
-      purple = 0x651E59;
+  var leftColor = opts.colors.left || 0xFED162;
+  var rightColor = opts.colors.right || 0xFED162;
+  var ballColor = opts.colors.ball || 0x393939;
 
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.position.z = 50;
@@ -13,25 +13,55 @@ var Helix = function(opts){
   var tubeGeom = new THREE.CylinderGeometry(0.3, 0.3, 6, 32);
   var ballGeom = new THREE.SphereGeometry(0.8, 32, 32);
 
-  var blueMat = new THREE.MeshBasicMaterial({ color: blue }),
-      yellowMat = new THREE.MeshBasicMaterial({ color: yellow }),
-      purpleMat = new THREE.MeshBasicMaterial({ color: purple });
+  var leftMat = new THREE.MeshBasicMaterial({ color: leftColor }),
+      rightMat = new THREE.MeshBasicMaterial({ color: rightColor }),
+      ballMat = new THREE.MeshBasicMaterial({ color: ballColor }),
+      chosenBallMat = new THREE.MeshBasicMaterial({ color: 0xDAA520 });
 
   var strand = new THREE.Object3D();
 
+  var getRandomInt = function(min, max){
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  var disperseThese = [];
+  for(var i = 0; i <= 10; i++){
+    var alreadyDispersed = function(index){
+      for(var i = 0; i <= 10; i++){
+        if(disperseThese[i] == index) return true;
+      }
+      return false;
+    }
+
+    var index = 0x0;
+    do{
+      index = getRandomInt(0, 40);
+    } while(!alreadyDispersed(index));
+
+    disperseThese[i] = index;
+  }
+
+  var getDispersalIndex = function(index){
+    for(var i = 0; i <= 10; i++) if(disperseThese[i] == index) return i;
+    return -1;
+  }
+
   for(var i = 0; i <= 40; i++){
-    var leftTube = new THREE.Mesh(tubeGeom, blueMat);
+    var disperseIndex = getDispersalIndex(i);
+    var calcBallMat = disperseIndex == -1 ? ballMat : chosenBallMat;
+
+    var leftTube = new THREE.Mesh(tubeGeom, leftMat);
     leftTube.rotation.z = 90 * Math.PI / 180;
     leftTube.position.x = -3;
 
-    var rightTube = new THREE.Mesh(tubeGeom, yellowMat);
+    var rightTube = new THREE.Mesh(tubeGeom, rightMat);
     rightTube.rotation.z = 90 * Math.PI / 180;
     rightTube.position.x = 3;
 
-    var rightBall = new THREE.Mesh(ballGeom, purpleMat);
+    var rightBall = new THREE.Mesh(ballGeom, ballMat);
     rightBall.position.x = 6;
 
-    var leftBall = new THREE.Mesh(ballGeom, purpleMat);
+    var leftBall = new THREE.Mesh(ballGeom, ballMat);
     leftBall.position.x = -6;
 
     var row = new THREE.Object3D();
