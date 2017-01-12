@@ -66,7 +66,7 @@ var Helix = function(opts){
 
   var render = function(){
     requestAnimationFrame(render);
-    strand.rotation.y += 0.01;
+    strand.rotation.y += 0.005;
     renderer.render(scene, camera);
   };
 
