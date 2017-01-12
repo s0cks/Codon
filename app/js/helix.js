@@ -20,36 +20,7 @@ var Helix = function(opts){
 
   var strand = new THREE.Object3D();
 
-  var getRandomInt = function(min, max){
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-  var disperseThese = [];
-  for(var i = 0; i <= 10; i++){
-    var alreadyDispersed = function(index){
-      for(var i = 0; i <= 10; i++){
-        if(disperseThese[i] == index) return true;
-      }
-      return false;
-    }
-
-    var index = 0x0;
-    do{
-      index = getRandomInt(0, 40);
-    } while(!alreadyDispersed(index));
-
-    disperseThese[i] = index;
-  }
-
-  var getDispersalIndex = function(index){
-    for(var i = 0; i <= 10; i++) if(disperseThese[i] == index) return i;
-    return -1;
-  }
-
   for(var i = 0; i <= 40; i++){
-    var disperseIndex = getDispersalIndex(i);
-    var calcBallMat = disperseIndex == -1 ? ballMat : chosenBallMat;
-
     var leftTube = new THREE.Mesh(tubeGeom, leftMat);
     leftTube.rotation.z = 90 * Math.PI / 180;
     leftTube.position.x = -3;
