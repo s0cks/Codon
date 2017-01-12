@@ -5,22 +5,13 @@
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="bower_components/threejs/build/three.min.js"></script>
+    <script src="js/api.js"></script>
     <script src="js/app.js"></script>
     <script src="js/helix.js"></script>
     <link rel="stylesheet" href="css/codon.css"/>
-    <script>
-      $(document).ready(function(){
-        var helix = new Helix({
-          colors: {
-            left: 0xFF0000,
-            right: 0xF1F1F1
-          }
-        });
-        $(".helix").append(helix);
-      });
-    </script>
   </head>
   <body data-ng-controller="mainCtrl">
+    <p data-ng-show="error">{{ error }}</p>
     <div class="helix"></div>
   </body>
 </html>
